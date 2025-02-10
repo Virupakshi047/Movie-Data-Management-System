@@ -28,4 +28,23 @@ public class Actors {
                 .map(id -> actorMap.getOrDefault(id, "Unknown Actor"))
                 .collect(Collectors.toList());
     }
+
+    public void getMostFrequentActors(List<String[]> movieData) {
+        // Count occurrences of each actor in all movies
+        Map<String, Long> actorCount = movieData.stream()
+                .map(row -> row[7].replaceAll("\"", "").split(","))
+                .flatMap(Arrays::stream)
+                .map(String::trim)
+                .collect(Collectors.groupingBy(id -> id, Collectors.counting()));
+        long maxMovies = actorCount.values().stream().max(Long::compare).orElse(0L);
+
+        List<String> mostFrequentActors = actorCount.entrySet().stream()
+                .filter(entry -> entry.getValue() == maxMovies)
+                .map(entry -> actorMap.getOrDefault(entry.getKey(), "Unknown Actor") + " (" + entry.getValue() + " movies)")
+                .collect(Collectors.toList());
+
+        System.out.println("\nActor Who Worked in Most Movies:");
+        mostFrequentActors.forEach(System.out::println);
+    }
+
 }
