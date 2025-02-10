@@ -12,6 +12,7 @@ public class Main {
         Actors ac = new Actors();
         Directors dc = new Directors();
 
-        mv.getMovieInfo("Movie 10",ac,dc);
+//        mv.getMovieInfo("Movie 10",ac,dc);
+        mv.getTop10RatedMovies();
     }
 }
