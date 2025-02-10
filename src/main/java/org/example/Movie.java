@@ -126,6 +126,42 @@ public class Movie {
         System.out.println("--------------------------------\n");
     }
 
+    public void getMoviesByYearRange(String yearRange) {
+        // Split input string and parse start & end years
+        String[] years = yearRange.split("-");
+
+        if (years.length != 2) {
+            System.out.println("Invalid input format! Please use 'YYYY-YYYY' format.");
+            return;
+        }
+        if(Integer.parseInt(years[1])>2025){
+            System.out.println("Enter year within 2025");
+            return;
+        }
+
+        try {
+            int startYear = Integer.parseInt(years[0].trim());
+            int endYear = Integer.parseInt(years[1].trim());
+
+            System.out.println("\nMovies Released Between " + startYear + " and " + endYear);
+            System.out.println("---------------------------");
+
+            data.stream()
+                    .skip(1)
+                    .filter(row -> row.length >= 3)
+                    .filter(row -> row[2].matches("\\d{4}"))
+                    .map(row -> new AbstractMap.SimpleEntry<>(row, Integer.parseInt(row[2].trim())))
+                    .filter(entry -> entry.getValue() >= startYear && entry.getValue() <= endYear)
+                    .map(Map.Entry::getKey) // ✅ Get original row back
+                    .forEach(row -> System.out.println(row[1].trim() + " (" + row[2].trim() + ")"));
+
+            System.out.println("---------------------------\n");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid year format! Please enter years in numeric format (e.g., '2014-2020').");
+        }
+    }
+
 
 
 }
