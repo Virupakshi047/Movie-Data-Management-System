@@ -221,4 +221,13 @@ public class Movie {
     }
 
 
+    public void getTop15MoviesByYear() {
+        data.stream()
+                .skip(1)
+                .filter(row -> row.length > 2)
+                .sorted(Comparator.comparingInt(row -> Integer.parseInt(row[2].trim())))
+                .limit(15)
+                .forEach(row -> System.out.println("Title: " + row[1] + " | Year: " + row[2]));
+    }
+
 }
