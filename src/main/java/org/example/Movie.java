@@ -1,4 +1,5 @@
 package org.example;
+import java.time.LocalDate;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,7 +30,8 @@ public class Movie {
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
-                String[] tokens = line.split(",");
+                String[] tokens = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                tokens[7] = tokens[7].replaceAll("\"", "");
                 data.add(tokens);
             }
         } catch (IOException e) {
@@ -38,6 +40,10 @@ public class Movie {
     }
 
     // Function to get movie details by ID or Title using Streams
+    public List<String[]> getData() {
+        return data;
+    }
+
     public void getMovieInfo(String searchKey, Actors actors, Directors directors) {
         Optional<String[]> movie = data.stream()
                 .filter(row -> row.length >= 8)
@@ -91,7 +97,6 @@ public class Movie {
 
         System.out.println("---------------------------\n");
     }
-
     public void getMoviesByGenre(String genre) {
         System.out.println("\nMovies in Genre: " + genre);
         System.out.println("---------------------------");
@@ -139,7 +144,6 @@ public class Movie {
                 .forEach(row->System.out.println(row[1].trim()));
         System.out.println("--------------------------------\n");
     }
-
     public void getMoviesByYearRange(String yearRange) {
         // Split input string and parse start & end years
         String[] years = yearRange.split("-");
@@ -193,7 +197,6 @@ public class Movie {
         System.out.println("Actor IDs: " + actorIds);
         System.out.println("---------------------------\n");
     }
-
     public void updateMovieRating(String movieId, String newRating) {
         boolean updated = false;
         for (String[] row : data) {
@@ -210,7 +213,6 @@ public class Movie {
             System.out.println("\n❌ Movie not found! Please check the Movie ID.");
         }
     }
-
     public void deleteMovie(String movieId) {
         boolean removed = data.removeIf(row -> row.length > 0 && row[0].trim().equals(movieId));
         if (removed) {
@@ -219,8 +221,6 @@ public class Movie {
             System.out.println("\n❌ Movie not found! Please check the Movie ID.");
         }
     }
-
-
     public void getTop15MoviesByYear() {
         data.stream()
                 .skip(1)
@@ -229,5 +229,6 @@ public class Movie {
                 .limit(15)
                 .forEach(row -> System.out.println("Title: " + row[1] + " | Year: " + row[2]));
     }
+
 
 }

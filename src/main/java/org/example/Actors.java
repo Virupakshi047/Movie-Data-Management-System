@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Arrays;
 
 public class Actors {
-    private Map<String, String> actorMap; // Stores actorId -> actorName
+    private Map<String, String> actorMap; // Stores actorId -> "actorName,birthYear"
+
     public Actors() {
         String csvFile = "D:\\data\\actors_large.csv";
 
@@ -17,7 +18,9 @@ public class Actors {
             actorMap = br.lines()
                     .map(line -> line.split(",")) // Split each line into an array
                     .filter(tokens -> tokens.length >= 2) // Ensure valid data
-                    .collect(Collectors.toMap(tokens -> tokens[0].trim(), tokens -> tokens[1].trim())); // Store in Map
+                    .collect(Collectors.toMap(tokens -> tokens[0].trim(), tokens -> tokens[1].trim())); // Store in
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,5 +49,6 @@ public class Actors {
         System.out.println("\nActor Who Worked in Most Movies:");
         mostFrequentActors.forEach(System.out::println);
     }
+
 
 }
