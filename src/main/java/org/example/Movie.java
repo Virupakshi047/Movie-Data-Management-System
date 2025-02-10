@@ -8,16 +8,30 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Movie {
-    private List<String[]> data; // List to store movie data
+    private static Movie instance;
+    public List<String[]> data;
+    private Movie() {
+        data = new ArrayList<>();
+        loadMoviesFromCSV();
+    }
 
-    // Constructor: Reads CSV and stores data
-    public Movie() {
-        String csvFile = "D:\\data\\movies_large.csv"; // File path
+    public static Movie getInstance() {
+        if (instance == null) {
+            instance = new Movie();
+        }
+        return instance;
+    }
+
+
+    private void loadMoviesFromCSV() {
+        String csvFile = "D:\\data\\movies_large.csv";
+        String line;
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            data = br.lines() // Read lines as a Stream
-                    .map(line -> line.split(",")) // Split each line into tokens
-                    .collect(Collectors.toList()); // Store in List
+            while ((line = br.readLine()) != null) {
+                String[] tokens = line.split(",");
+                data.add(tokens);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,7 +175,23 @@ public class Movie {
             System.out.println("Invalid year format! Please enter years in numeric format (e.g., '2014-2020').");
         }
     }
+    public void addMovie(String movieId, String title, String releaseYear, String genre, String rating, String duration, String directorId, String actorIds) {
+        // Create a new movie entry as an array
+        String[] newMovie = {movieId, title, releaseYear, genre, rating, duration, directorId, actorIds};
 
+        // Add the new movie to the list
+        data.add(newMovie);
 
+        System.out.println("\nMovie Added Successfully!");
+        System.out.println("---------------------------");
+        System.out.println("Title: " + title);
+        System.out.println("Year: " + releaseYear);
+        System.out.println("Genre: " + genre);
+        System.out.println("Rating: " + rating);
+        System.out.println("Duration: " + duration + " min");
+        System.out.println("Director ID: " + directorId);
+        System.out.println("Actor IDs: " + actorIds);
+        System.out.println("---------------------------\n");
+    }
 
 }

@@ -7,7 +7,7 @@ import org.example.Directors;
 import org.example.Movie;
 public class Main {
     public static void main(String[] args) {
-        Movie mv = new Movie();
+        Movie mv =  Movie.getInstance();
 
         Actors ac = new Actors();
         Directors dc = new Directors();
@@ -17,6 +17,9 @@ public class Main {
 //        mv.getMoviesByGenre("C");
 //        mv.getMoviesByDirector("Daniel Myers",dc);
 //        mv.getMoviesByReleaseYear("1985");
+//        mv.getMoviesByYearRange("2014-2020");
+        mv.addMovie("5002", "Inception 2", "2025", "Sci-Fi", "9.5", "160", "101", "461,1696,964");
+
 
     }
 
