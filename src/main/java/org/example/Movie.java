@@ -194,4 +194,21 @@ public class Movie {
         System.out.println("---------------------------\n");
     }
 
+    public void updateMovieRating(String movieId, String newRating) {
+        boolean updated = false;
+        for (String[] row : data) {
+            if (row.length > 4 && row[0].trim().equals(movieId)) {
+                row[4] = newRating;
+                updated = true;
+                break;
+            }
+        }
+        if (updated) {
+            System.out.println("\n✅ Movie Rating Updated Successfully!");
+            System.out.println("Movie ID: " + movieId + " → New Rating: " + newRating);
+        } else {
+            System.out.println("\n❌ Movie not found! Please check the Movie ID.");
+        }
+    }
+
 }
