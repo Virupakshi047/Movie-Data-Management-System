@@ -10,8 +10,6 @@ import java.util.Arrays;
 
 public class Actors {
     private Map<String, String> actorMap; // Stores actorId -> actorName
-
-    // Constructor: Reads CSV and creates a Map using Streams
     public Actors() {
         String csvFile = "D:\\data\\actors_large.csv";
 
@@ -24,13 +22,10 @@ public class Actors {
             e.printStackTrace();
         }
     }
-
-    // Function to get a list of actor names by actor IDs (comma-separated)
     public List<String> getActorsByIds(String actorIds) {
-        return Arrays.stream(actorIds.split(",")) // Split actorIds using ","
-                .map(String::trim) // Trim spaces
-                .map(actorMap::get) // Fetch actor name from Map
-                .filter(name -> name != null) // Ignore null values
-                .collect(Collectors.toList()); // Collect as List
+        return Arrays.stream(actorIds.split(","))
+                .map(id -> id.trim())
+                .map(id -> actorMap.getOrDefault(id, "Unknown Actor"))
+                .collect(Collectors.toList());
     }
 }
