@@ -1,34 +1,30 @@
 package org.example;
-import java.util.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-public class Directors {
-    public List<String[]> data;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-    // Constructor to read and store CSV data
+public class Directors {
+    private Map<String, String> directorMap; // Stores directorId -> directorName
+
+    // Constructor: Reads CSV and maps directorId to directorName using Streams
     public Directors() {
-        data = new ArrayList<>(); // Initialize the list
-        String csvFile = "D:\\data\\directors_large.csv"; // File path
-        String line;
+        String csvFile = "D:\\data\\directors_large.csv";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            while ((line = br.readLine()) != null) {
-                String[] tokens = line.split(";");
-                data.add(tokens); // Store each row in the list
-            }
+            directorMap = br.lines()
+                    .map(line -> line.split(",")) // Split each line into tokens
+                    .filter(tokens -> tokens.length >= 2) // Ensure valid data
+                    .collect(Collectors.toMap(tokens -> tokens[0].trim(), tokens -> tokens[1].trim())); // Store in Map
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Method to print all data
-    public void printData() {
-        for (String[] row : data) {
-            for (String value : row) {
-                System.out.print(value.trim() + " | ");
-            }
-            System.out.println();
-        }
+    // Function to get director name by ID using Streams
+    public String getDirectorById(String directorId) {
+        return directorMap.getOrDefault(directorId.trim(), "Unknown Director");
     }
 }
