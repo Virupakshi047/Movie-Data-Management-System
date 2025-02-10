@@ -211,4 +211,14 @@ public class Movie {
         }
     }
 
+    public void deleteMovie(String movieId) {
+        boolean removed = data.removeIf(row -> row.length > 0 && row[0].trim().equals(movieId));
+        if (removed) {
+            System.out.println("\n✅ Movie Deleted Successfully! Movie ID: " + movieId);
+        } else {
+            System.out.println("\n❌ Movie not found! Please check the Movie ID.");
+        }
+    }
+
+
 }
