@@ -23,8 +23,18 @@ public class Directors {
         }
     }
 
+
+
     // Function to get director name by ID using Streams
     public String getDirectorById(String directorId) {
         return directorMap.getOrDefault(directorId.trim(), "Unknown Director");
     }
+    public String getDirectorIdByName(String directorName) {
+        return directorMap.entrySet().stream()
+                .filter(entry -> entry.getValue().equalsIgnoreCase(directorName)) // ✅ Case-insensitive match
+                .map(Map.Entry::getKey) // ✅ Get directorId
+                .findFirst()
+                .orElse(null); // ✅ Return null if not found
+    }
+
 }
