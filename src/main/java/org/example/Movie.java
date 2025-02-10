@@ -68,11 +68,11 @@ public class Movie {
         System.out.println("\nTop 10 Rated Movies:\n---------------------------");
 
         data.stream()
-                .skip(1) // ✅ Skip the header row
-                .filter(row -> row.length >= 5) // ✅ Ensure valid rows
-                .filter(row -> row[4].matches("\\d+(\\.\\d+)?")) // ✅ Ensure rating is a valid number
-                .sorted((a, b) -> Double.compare(Double.parseDouble(b[4].trim()), Double.parseDouble(a[4].trim()))) // ✅ Sort by rating (descending)
-                .limit(10) // ✅ Get top 10
+                .skip(1)
+                .filter(row -> row.length >= 5)
+                .filter(row -> row[4].matches("\\d+(\\.\\d+)?"))
+                .sorted((a, b) -> Double.compare(Double.parseDouble(b[4].trim()), Double.parseDouble(a[4].trim())))
+                .limit(10)
                 .forEach(row -> System.out.println(row[1].trim() + " (Rating: " + row[4].trim() + ")"));
 
         System.out.println("---------------------------\n");
@@ -83,10 +83,10 @@ public class Movie {
         System.out.println("---------------------------");
 
         data.stream()
-                .skip(1) // ✅ Skip the header row
-                .filter(row -> row.length >= 4) // ✅ Ensure valid rows
-                .filter(row -> row[3].trim().equalsIgnoreCase(genre)) // ✅ Match genre (case-insensitive)
-                .forEach(row -> System.out.println(row[1].trim() + " (" + row[2].trim() + ")")); // ✅ Print title & year
+                .skip(1)
+                .filter(row -> row.length >= 4)
+                .filter(row -> row[3].trim().equalsIgnoreCase(genre))
+                .forEach(row -> System.out.println(row[1].trim() + " (" + row[2].trim() + ")"));
 
         System.out.println("---------------------------\n");
     }
@@ -103,12 +103,27 @@ public class Movie {
         }
 
         data.stream()
-                .skip(1) // ✅ Skip the header row
-                .filter(row -> row.length >= 7) // ✅ Ensure valid rows
-                .filter(row -> row[6].trim().equals(directorId)) // ✅ Match director ID
-                .forEach(row -> System.out.println(row[1].trim() + " (" + row[2].trim() + ")")); // ✅ Print title & year
+                .skip(1)
+                .filter(row -> row.length >= 7)
+                .filter(row -> row[6].trim().equals(directorId))
+                .forEach(row -> System.out.println(row[1].trim() + " (" + row[2].trim() + ")"));
 
         System.out.println("---------------------------\n");
+    }
+    public void getMoviesByReleaseYear(String year){
+        System.out.println("\n Movies released in the year "+year);
+        System.out.println("--------------------------------");
+
+        if(year==null){
+            System.out.println("Movies not found");
+            return;
+        }
+        data.stream()
+                .skip(1)
+                .filter(row->row.length>=7)
+                .filter(row->row[2].trim().equals(year))
+                .forEach(row->System.out.println(row[1].trim()));
+        System.out.println("--------------------------------\n");
     }
 
 

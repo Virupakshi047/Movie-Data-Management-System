@@ -13,6 +13,11 @@ public class Main {
         Directors dc = new Directors();
 
 //        mv.getMovieInfo("Movie 10",ac,dc);
-        mv.getTop10RatedMovies();
+//        mv.getTop10RatedMovies();
+//        mv.getMoviesByGenre("C");
+//        mv.getMoviesByDirector("Daniel Myers",dc);
+//        mv.getMoviesByReleaseYear("1985");
+
     }
+
 }
